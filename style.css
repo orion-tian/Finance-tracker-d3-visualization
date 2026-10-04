@@ -3,10 +3,19 @@ body {
   margin: 24px;
 }
 
-.bar {
-  fill: steelblue;
+.segment:hover {
+  opacity: 0.75;
 }
 
-.bar:hover {
-  fill: orange;
+#tooltip {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  /* so the tooltip never steals the mouse from the bar */
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  line-height: 1.4;
 }

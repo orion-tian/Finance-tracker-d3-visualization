@@ -1,0 +1,12 @@
+body {
+  font-family: sans-serif;
+  margin: 24px;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: orange;
+}

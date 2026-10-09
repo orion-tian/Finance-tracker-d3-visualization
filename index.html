@@ -3,13 +3,107 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Orion Monthly Spending</title>
+  <title>Finance Tracker</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <h1>Monthly Spending</h1>
-  <div id="chart"></div>
+  <h1>Finance Tracker</h1>
+
+  <div class="tabs">
+    <button class="tab active" data-view="charts">Charts</button>
+    <button class="tab" data-view="table">Transactions</button>
+    <button class="tab" data-view="categories">Categories</button>
+  </div>
+
+  <!-- Screen 1: charts, with a transactions drawer underneath -->
+  <div id="view-charts">
+    <div class="chart-controls">
+      <label>Break down by:
+        <select id="level-select">
+          <option value="group">Super category</option>
+          <option value="category">Category</option>
+          <option value="sub">Subcategory</option>
+        </select>
+      </label>
+      <label>Show: <select id="scope-select"></select></label>
+      <label id="only-subs-label" class="hidden">
+        <input id="only-subs" type="checkbox" checked> Only items that have a subcategory
+      </label>
+      <span class="hint-inline">Click a bar segment, a month, a pie slice or a legend item to see its
+        transactions.</span>
+    </div>
+
+    <div class="layout">
+      <div id="chart"></div>
+
+      <div id="pie-panel" class="hidden">
+        <h2 id="pie-title"></h2>
+        <button id="year-btn">Whole year</button>
+        <div id="pie"></div>
+        <div id="pie-list"></div>
+      </div>
+    </div>
+
+    <div id="detail-panel" class="hidden"></div>
+  </div>
+
+  <!-- Screen 2: all transactions -->
+  <div id="view-table" class="hidden">
+    <div class="filters">
+      <label>Month: <select id="filter-month">
+          <option value="all">All</option>
+        </select></label>
+      <label>Search: <input id="filter-search" type="text" placeholder="item, category, subcategory"></label>
+      <label><input id="filter-changed" type="checkbox"> Changed only</label>
+      <label><input id="apply-all" type="checkbox"> Row tags apply to every row with the same name</label>
+      <button id="new-cat-btn">+ New category</button>
+      <button id="reset-tags">Reset all tags</button>
+      <span id="row-count"></span>
+    </div>
+
+    <div id="bulk-host"></div>
+    <div id="tx-host"></div>
+  </div>
+
+  <!-- Screen 3: edit the category tree -->
+  <div id="view-categories" class="hidden">
+    <p class="hint">
+      Every item gets one category and, optionally, one subcategory. Every category lives in one
+      super category. Move a category and all its items move with it.
+    </p>
+    <button id="add-group">+ Add super category</button>
+    <div id="tree"></div>
+  </div>
+
+  <!-- Popup for creating a category without leaving the page -->
+  <div id="cat-dialog" class="modal hidden">
+    <div class="modal-box">
+      <h3 id="dlg-title">New category</h3>
+
+      <label>Category
+        <input id="dlg-category" list="dlg-cat-list" autocomplete="off" placeholder="e.g. Dining">
+      </label>
+      <datalist id="dlg-cat-list"></datalist>
+
+      <label>Subcategory (optional)
+        <input id="dlg-sub" list="dlg-sub-list" autocomplete="off" placeholder="e.g. Coffee">
+      </label>
+      <datalist id="dlg-sub-list"></datalist>
+
+      <label>Super category
+        <select id="dlg-group"></select>
+      </label>
+      <input id="dlg-newgroup" class="hidden" autocomplete="off" placeholder="Name for the new super category">
+
+      <p id="dlg-hint"></p>
+      <div class="modal-actions">
+        <button id="dlg-cancel">Cancel</button>
+        <button id="dlg-save">Create &amp; tag</button>
+      </div>
+    </div>
+  </div>
+
   <div id="tooltip"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
